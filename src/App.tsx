@@ -5,12 +5,15 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { AppThemeProvider } from "./shared/contexts/ThemeContext";
+import { MenuLateral } from "./shared/components";
 
 export const App = () => {
   return (
     <AppThemeProvider>
       <BrowserRouter>
-        <AppRoutes />
+        <MenuLateral>
+          <AppRoutes />
+        </MenuLateral>
       </BrowserRouter>
     </AppThemeProvider>
   );
