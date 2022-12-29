@@ -11,14 +11,47 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import { useMatch, useNavigate, useResolvedPath } from "react-router-dom";
 import { UseDrawerContext } from "../../contexts";
 
 interface IMenuLateralProps {
   children: React.ReactNode;
 }
+interface IListItemLinkProps {
+  to: string;
+  icon: string;
+  label: string;
+  onClick: (() => void) | undefined;
+}
+
+const ListItemLink: React.FC<IListItemLinkProps> = ({
+  to,
+  icon,
+  label,
+  onClick,
+}) => {
+  const navigate = useNavigate();
+
+  const resolvedPath = useResolvedPath(to);
+  const match = useMatch({ path: resolvedPath.pathname, end: false });
+
+  const handleClick = () => {
+    navigate(to);
+    onClick?.();
+  };
+
+  return (
+    <ListItemButton selected={!!match} onClick={handleClick}>
+      <ListItemIcon>
+        <Icon>{icon}</Icon>
+      </ListItemIcon>
+      <ListItemText primary={label} />
+    </ListItemButton>
+  );
+};
 
 export const MenuLateral: React.FC<IMenuLateralProps> = ({ children }) => {
-  const { isDrawerOpen, toggleDrawerOpen } = UseDrawerContext();
+  const { isDrawerOpen, toggleDrawerOpen, drawerOptions } = UseDrawerContext();
 
   const theme = useTheme();
 
@@ -53,14 +86,15 @@ export const MenuLateral: React.FC<IMenuLateralProps> = ({ children }) => {
 
           <Divider />
           <Box flex={1}>
-            <List component="nav" aria-label="main mailbox folders">
-              <ListItemButton>
-                <ListItemIcon>
-                  <Icon>home</Icon>
-                </ListItemIcon>
-                <ListItemText primary="Página Inicial" />
-              </ListItemButton>
-            </List>
+            {drawerOptions.map((drawerOption) => (
+              <ListItemLink
+                key={drawerOption.path}
+                icon={drawerOption.icon}
+                label={drawerOption.label}
+                to={drawerOption.path}
+                onClick={smDown ? toggleDrawerOpen : undefined}
+              />
+            ))}
           </Box>
         </Box>
       </Drawer>
