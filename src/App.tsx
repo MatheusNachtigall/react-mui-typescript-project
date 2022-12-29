@@ -4,17 +4,19 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { AppThemeProvider } from "./shared/contexts/ThemeContext";
 import { MenuLateral } from "./shared/components";
+import { AppThemeProvider, DrawerProvider } from "./shared/contexts";
 
 export const App = () => {
   return (
     <AppThemeProvider>
-      <BrowserRouter>
-        <MenuLateral>
-          <AppRoutes />
-        </MenuLateral>
-      </BrowserRouter>
+      <DrawerProvider>
+        <BrowserRouter>
+          <MenuLateral>
+            <AppRoutes />
+          </MenuLateral>
+        </BrowserRouter>
+      </DrawerProvider>
     </AppThemeProvider>
   );
 };
