@@ -4,7 +4,6 @@ import {
   Divider,
   Drawer,
   Icon,
-  List,
   ListItemButton,
   ListItemIcon,
   ListItemText,
